@@ -6,15 +6,19 @@ const database = new Database()
 
 export const routes = [
     {   
-        method: 'GET', path: buildRoutePath('/users'), 
+        method: 'GET', 
+        path: buildRoutePath('/users'), 
         handler: (req, res) => { 
-            const user = database.select('users')
+            const { search } = req.query
+            console.log(search)
+            const user = database.select('users', {name: search, email: search})
         
             return res.end(JSON.stringify(user))
         }
     },
     { 
-        method: 'POST', path: buildRoutePath('/users'), 
+        method: 'POST', 
+        path: buildRoutePath('/users'), 
         handler: (req, res) => { 
 		const {name, email} = req.body
 
@@ -30,7 +34,8 @@ export const routes = [
         },
     },
     { 
-        method: 'PUT', path: buildRoutePath('/users/:id'), 
+        method: 'PUT', 
+        path: buildRoutePath('/users/:id'), 
         handler: (req, res) => { 
         const { id } = req.params
 		const {name, email} = req.body
@@ -44,7 +49,8 @@ export const routes = [
         },
     },
     {   
-        method: 'DELETE', path: buildRoutePath('/users/:id'), 
+        method: 'DELETE', 
+        path: buildRoutePath('/users/:id'), 
         handler: (req, res) => { 
             const { id } = req.params
             
